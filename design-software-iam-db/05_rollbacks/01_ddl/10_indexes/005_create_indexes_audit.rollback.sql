@@ -1,2 +1,0 @@
-
-DROP INDEX IF EXISTS audit.ix_audit_login_email_attempted_attempted_at;
