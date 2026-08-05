@@ -71,3 +71,12 @@ databaseChangeLog:
         - sqlFile: {path: 950_quality_fixes.sql, relativeToChangelogFile: true, splitStatements: true, stripComments: false}
       rollback:
         - sql: {sql: "SELECT 1;"}
+  - changeSet:
+      id: quality-polish-iam-951
+      author: jesus-gonzalez
+      labels: "quality,v2,polish"
+      comment: Unicidad de email case-insensitive (lower(email))
+      changes:
+        - sqlFile: {path: 951_quality_polish.sql, relativeToChangelogFile: true, splitStatements: true, stripComments: false}
+      rollback:
+        - sql: {sql: "DROP INDEX IF EXISTS identity.uq_user_email_lower;"}
