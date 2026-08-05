@@ -62,3 +62,12 @@ databaseChangeLog:
             path: ../../05_rollbacks/01_ddl/04_alter/005_add_alter_identity_audit.rollback.sql
             relativeToChangelogFile: true
             stripComments: false
+  - changeSet:
+      id: quality-fixes-iam-950
+      author: jesus-gonzalez
+      labels: "quality,v2"
+      comment: id DEFAULT gen_random_uuid e indices de FK faltantes
+      changes:
+        - sqlFile: {path: 950_quality_fixes.sql, relativeToChangelogFile: true, splitStatements: true, stripComments: false}
+      rollback:
+        - sql: {sql: "SELECT 1;"}
