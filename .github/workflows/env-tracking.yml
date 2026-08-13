@@ -1,7 +1,7 @@
 name: Project env tracking
 
 # Al mergear un PR a develop/qa/staging/main, actualiza el campo Environment
-# (y Status=Done en main) de la HU vinculada en el GitHub Project #3.
+# de la HU vinculada en el GitHub Project #3 (control de ambiente).
 # La HU se referencia en el título o cuerpo del PR como:
 #   Closes code-sena/design-software-docs#<NN>   (o simplemente design-software-docs#<NN>)
 #
@@ -26,11 +26,10 @@ jobs:
         with:
           github-token: ${{ secrets.PROJECTS_TOKEN }}
           script: |
-            const PROJECT_ID   = 'PVT_kwDOCG6DO84BX48D';
-            const ENV_FIELD    = 'PVTSSF_lADOCG6DO84BX48DzhaXh7I';   // Environment
-            const STATUS_FIELD = 'PVTSSF_lADOCG6DO84BX48DzhTCqQ8';   // Status
+            const PROJECT_ID = 'PVT_kwDOCG6DO84BX48D';
+            const ENV_FIELD  = 'PVTSSF_lADOCG6DO84BX48DzhaXh7I';   // Environment
+            // opción por rama: develop->Dev, qa->QA, staging->Staging, main->Main
             const ENV_OPT = { develop:'dfd5af6a', qa:'f6167b52', staging:'47e13149', main:'59ab3e86' };
-            const STATUS_DONE = 'eb0c0a45';
 
             const base = context.payload.pull_request.base.ref;
             const envOpt = ENV_OPT[base];
@@ -62,10 +61,6 @@ jobs:
 
                 await setField(item.id, ENV_FIELD, envOpt);
                 core.info(`HU #${n}: Environment = ${base}`);
-                if (base === 'main') {
-                  await setField(item.id, STATUS_FIELD, STATUS_DONE);
-                  core.info(`HU #${n}: Status = Done`);
-                }
               } catch (e) {
                 core.warning(`HU #${n}: no se pudo actualizar (${e.message}); se omite.`);
               }
